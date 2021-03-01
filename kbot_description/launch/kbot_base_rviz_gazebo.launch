@@ -1,0 +1,28 @@
+<launch>
+
+  <!--Robot Description from URDF-->
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(find kbot_description)/urdf/kbot.xacro"/>  
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>
+
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+
+  <!--Map Server-->
+  <node pkg="map_server" type="map_server" name="map_server" 
+    args="$(find kbot_description)/maps/closed_room_rviz.yaml"/>
+
+  <!--RViz-->
+  <node name="rviz" pkg="rviz" type="rviz" required="true"/>
+
+  <!--Gazebo empty world launch file-->
+  <include
+    file="$(find gazebo_ros)/launch/empty_world.launch">
+<env name="GAZEBO_MODEL_PATH" value="$(find kbot_description)/models"/>
+	<arg name="world_name" value="$(find kbot_description)/models/my_world.world"/>
+</include>
+
+  
+  <!-- Find my robot Description-->
+  
+  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -param robot_description -model kbot "/>
+</launch>

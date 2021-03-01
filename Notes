@@ -1,0 +1,7 @@
+rosrun map_server map_server -f closed_room_rviz
+catkin_make
+roslaunch kbot_description kbot_base_rviz_gazebo.launch
+In rviz import the config file from config folder of kbot_description package
+
+
+
